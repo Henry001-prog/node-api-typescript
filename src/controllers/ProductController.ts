@@ -1,9 +1,9 @@
-import mongoose from 'mongoose';
+import { model, PaginateResult, UpdateQuery } from 'mongoose';
 
-const Product = mongoose.model('Product');
+const Product = model('Product');
 
-module.exports = {
-    async index(req: { query: { page?: 1; }; }, res: { json: (arg0: mongoose.PaginateResult<any>) => any; }) {
+const ProductController = {
+    async index(req: { query: { page?: 1; }; }, res: { json: (arg0: PaginateResult<any>) => any; }) {
         const { page = 1 } = req.query;
         const products = await Product.paginate({}, { page, limit: 10 }); // aqui foi onde criou o banco com title React Native, lá no routes
 
@@ -22,7 +22,7 @@ module.exports = {
         return res.json(product);
     },
 
-    async update(req: { params: { id: String; }; body: mongoose.UpdateQuery<any>; }, res: { json: (arg0: any) => any; }) {
+    async update(req: { params: { id: String; }; body: UpdateQuery<any>; }, res: { json: (arg0: any) => any; }) {
         const product = await Product.findByIdAndUpdate(req.params.id, req.body, {new: true });
 
         return res.json(product);
@@ -34,3 +34,5 @@ module.exports = {
         return res.send();
     }
 };
+
+export default ProductController;

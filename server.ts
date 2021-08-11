@@ -1,18 +1,22 @@
 import express from 'express';
-import cors from 'cors';
-import mongoose from 'mongoose';
+import { connect } from 'mongoose';
 import requireDir from 'require-dir';
+import allowCors from './src/config/cors';
 
 // Iniciando o App
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(allowCors);
 
 // Inciando o DB
-mongoose.connect(
-    'mongodb://localhost:27017/nodeapi',
-    { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false } 
-);
+run();
+
+async function run(): Promise<void> {
+    await connect(
+        'mongodb://localhost:27017/nodeapi',
+        { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false } 
+    );
+}
 requireDir('./src/models');
 
 // Rotas

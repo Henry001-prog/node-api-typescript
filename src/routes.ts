@@ -1,7 +1,7 @@
 import { Router } from 'express';
-const routes = Router();
+import ProductController from './controllers/ProductController';
 
-const ProductController = require('./controllers/ProductController');
+const routes = Router();
 
 routes.get("/products", ProductController.index);
 routes.get('/products/:id', ProductController.show);
